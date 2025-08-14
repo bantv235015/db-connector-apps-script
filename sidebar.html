@@ -1,0 +1,2764 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>OpenDB - Smart Data Connector</title>
+    <base target="_top" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* === DESIGN SYSTEM === */
+      :root {
+        /* Colors */
+        --primary-50: #f0f9ff;
+        --primary-100: #e0f2fe;
+        --primary-500: #0ea5e9;
+        --primary-600: #0284c7;
+        --primary-700: #0369a1;
+
+        --secondary-50: #f0fdf4;
+        --secondary-100: #dcfce7;
+        --secondary-500: #22c55e;
+        --secondary-600: #16a34a;
+        --secondary-700: #15803d;
+
+        --neutral-0: #ffffff;
+        --neutral-50: #fafafa;
+        --neutral-100: #f5f5f5;
+        --neutral-200: #e5e5e5;
+        --neutral-300: #d4d4d4;
+        --neutral-400: #a3a3a3;
+        --neutral-500: #737373;
+        --neutral-600: #525252;
+        --neutral-700: #404040;
+        --neutral-800: #262626;
+        --neutral-900: #171717;
+
+        --error-50: #fef2f2;
+        --error-500: #ef4444;
+        --error-600: #dc2626;
+
+        --warning-50: #fffbeb;
+        --warning-500: #f59e0b;
+        --warning-600: #d97706;
+
+        --success-50: #f0fdf4;
+        --success-500: #22c55e;
+        --success-600: #16a34a;
+
+        /* Typography */
+        --font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, sans-serif;
+        --font-size-xs: 0.75rem;
+        --font-size-sm: 0.875rem;
+        --font-size-base: 1rem;
+        --font-size-lg: 1.125rem;
+        --font-size-xl: 1.25rem;
+        --font-size-2xl: 1.5rem;
+
+        /* Spacing */
+        --space-1: 0.25rem;
+        --space-2: 0.5rem;
+        --space-3: 0.75rem;
+        --space-4: 1rem;
+        --space-5: 1.25rem;
+        --space-6: 1.5rem;
+        --space-8: 2rem;
+        --space-10: 2.5rem;
+        --space-12: 3rem;
+
+        /* Border Radius */
+        --radius-sm: 0.25rem;
+        --radius-md: 0.375rem;
+        --radius-lg: 0.5rem;
+        --radius-xl: 0.75rem;
+
+        /* Shadows */
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+          0 2px 4px -2px rgb(0 0 0 / 0.1);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+          0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+        /* Transitions */
+        --transition-fast: 150ms ease-in-out;
+        --transition-normal: 250ms ease-in-out;
+      }
+
+      /* === RESET & BASE === */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: var(--font-family);
+        background-color: var(--neutral-50);
+        color: var(--neutral-700);
+        font-size: var(--font-size-sm);
+        line-height: 1.5;
+        overflow-x: hidden;
+      }
+
+      /* === COMPONENT SYSTEM === */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-2);
+        padding: var(--space-2) var(--space-4) !important;
+        border: 1px solid transparent;
+        border-radius: var(--radius-md);
+        font-family: var(--font-family);
+        font-size: 12px !important;
+        font-weight: 500;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        user-select: none;
+      }
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .btn-primary {
+        background-color: var(--primary-500);
+        color: var(--neutral-0);
+        border-color: var(--primary-500);
+      }
+      .btn-primary:hover:not(:disabled) {
+        background-color: var(--primary-600);
+        border-color: var(--primary-600);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+      }
+      .btn-secondary {
+        background-color: var(--secondary-500);
+        color: var(--neutral-0);
+        border-color: var(--secondary-500);
+      }
+      .btn-secondary:hover:not(:disabled) {
+        background-color: var(--secondary-600);
+        border-color: var(--secondary-600);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+      }
+      .btn-outline {
+        background-color: var(--neutral-0);
+        color: var(--neutral-700);
+        border-color: var(--neutral-300);
+      }
+      .btn-outline:hover:not(:disabled) {
+        background-color: var(--neutral-50);
+        border-color: var(--neutral-400);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+      }
+      .btn-ghost {
+        background-color: transparent;
+        color: var(--neutral-600);
+        border-color: transparent;
+      }
+      .btn-ghost:hover:not(:disabled) {
+        background-color: var(--neutral-100);
+        color: var(--neutral-700);
+      }
+      .btn-full {
+        width: 100%;
+      }
+      .action-group {
+        display: flex;
+        gap: var(--space-2);
+      }
+      .card {
+        background-color: var(--neutral-0);
+        border-radius: var(--radius-lg);
+        box-shadow: 0px 0px 4px #dbd6d6 !important;
+        overflow: hidden;
+      }
+      .card-header {
+        padding: var(--space-3) var(--space-4);
+        background-color: var(--neutral-50);
+        border-bottom: 1px solid var(--neutral-200);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .card-title {
+        font-size: var(--font-size-base);
+        font-weight: 600;
+        color: var(--neutral-800);
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+      .card-body {
+        padding: 5px !important;
+      }
+      .card-footer {
+        padding: var(--space-3) var(--space-4);
+        background-color: var(--neutral-50);
+        border-top: 1px solid var(--neutral-200);
+      }
+      .form-group {
+        margin-bottom: var(--space-4);
+      }
+      .form-label {
+        display: block;
+        margin-bottom: var(--space-2);
+        font-size: var(--font-size-sm);
+        font-weight: 500;
+        color: var(--neutral-700);
+      }
+      .form-input,
+      .form-select {
+        width: 100%;
+        padding: var(--space-2) var(--space-3);
+        border: 1px solid var(--neutral-300);
+        border-radius: var(--radius-md);
+        font-family: var(--font-family);
+        font-size: var(--font-size-sm);
+        background-color: var(--neutral-0);
+        transition: all var(--transition-fast);
+      }
+      .form-input:focus,
+      .form-select:focus {
+        outline: none;
+        border-color: var(--primary-500);
+        box-shadow: 0 0 0 3px rgb(14 165 233 / 0.1);
+      }
+      .form-select[multiple] {
+        min-height: 120px;
+        padding: var(--space-2);
+      }
+      .status-message {
+        padding: var(--space-3) var(--space-4);
+        border-radius: var(--radius-md);
+        border: 1px solid;
+        font-size: var(--font-size-sm);
+        margin-top: var(--space-3);
+        display: none;
+      }
+      .status-message.success {
+        background-color: var(--success-50);
+        border-color: var(--success-500);
+        color: var(--success-600);
+        display: block;
+      }
+      .status-message.error {
+        background-color: var(--error-50);
+        border-color: var(--error-500);
+        color: var(--error-600);
+        display: block;
+      }
+      .status-message.loading,
+      .status-message.info {
+        background-color: var(--primary-50);
+        border-color: var(--primary-500);
+        color: var(--primary-600);
+        display: block;
+      }
+      .icon-circle {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--neutral-0);
+        font-size: var(--font-size-base);
+        flex-shrink: 0;
+      }
+      .icon-facebook {
+        background: linear-gradient(135deg, #1877f2, #42a5f5);
+      }
+      .icon-google {
+        background: linear-gradient(135deg, #4285f4, #34a853);
+      }
+      .icon-tiktok {
+        background: linear-gradient(47deg, #ff0050, #6e7777, #000000);
+        color: white;
+      }
+      .icon-billing {
+        background: linear-gradient(135deg, #34a853, #7cb342);
+      }
+      .list {
+        list-style: none;
+      }
+      .list-item {
+        display: flex;
+        align-items: center;
+        padding: var(--space-2) var(--space-3);
+        border-top: 1px solid var(--neutral-200);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        gap: var(--space-3);
+      }
+      .list-item:first-child {
+        border-top: none;
+      }
+      .list-item:hover {
+        background-color: var(--neutral-50);
+      }
+      .list-item-content {
+        flex: 1;
+        font-size: 12.5px;
+        font-weight: 500;
+        color: var(--neutral-700);
+      }
+      .list-item-action {
+        color: var(--neutral-400);
+      }
+      .sidebar-container {
+        width: 100%;
+        max-width: 380px;
+        background-color: var(--neutral-0);
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .sidebar-content {
+        display: none;
+        flex: 1;
+        flex-direction: column;
+        opacity: 0;
+        transform: translateX(20px);
+        transition: all var(--transition-normal);
+      }
+      .sidebar-content.active {
+        display: flex;
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .sidebar-header {
+        background: linear-gradient(
+          135deg,
+          var(--primary-500),
+          var(--primary-600)
+        );
+        color: var(--neutral-0);
+        padding: var(--space-2) var(--space-4);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: var(--shadow-md);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .sidebar-title {
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        font-size: var(--font-size-base);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .nav-button {
+        width: 28px;
+        height: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background-color: rgba(255, 255, 255, 0.1);
+        color: var(--neutral-0);
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+      }
+      .nav-button:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-1px);
+      }
+      .sidebar-main {
+        flex: 1;
+        padding: var(--space-4);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-4);
+        overflow-y: auto;
+      }
+      .hidden {
+        display: none !important;
+      }
+      .date-range-container {
+        display: flex;
+        gap: 5px !important;
+      }
+      .date-input-group {
+        flex: 1;
+      }
+      .license-input-group input {
+        width: 100%;
+        padding: 12px 10px 12px 20px; /* Tăng padding trên và dưới để tăng chiều cao */
+        height: 40px; /* Đặt chiều cao cố định */
+        font-size: 1.1em; /* Tăng cỡ chữ */
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+      .fields-container-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-2);
+      }
+      .check-all-btn {
+        font-size: var(--font-size-xs);
+        color: var(--primary-500);
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .fields-container {
+        border: 1px solid var(--neutral-300);
+        border-radius: var(--radius-md);
+        padding: var(--space-3);
+        background-color: var(--neutral-0);
+        min-height: 150px;
+        max-height: 250px;
+        overflow-y: auto;
+      }
+      .field-category-title {
+        font-weight: 600;
+        font-size: var(--font-size-sm);
+        color: var(--neutral-800);
+        margin-top: var(--space-3);
+        margin-bottom: var(--space-2);
+        padding-bottom: var(--space-1);
+        border-bottom: 1px solid var(--neutral-200);
+      }
+      .field-category-title:first-child {
+        margin-top: 0;
+      }
+      .field-checkbox-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: var(--space-2);
+        font-size: var(--font-size-sm);
+      }
+      .field-checkbox-item input {
+        margin-right: var(--space-2);
+      }
+      .field-checkbox-item label {
+        margin-bottom: 0;
+        font-weight: 400;
+      }
+      .credential-display {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--neutral-100);
+        padding: var(--space-2) var(--space-3);
+        border-radius: var(--radius-md);
+        font-size: var(--font-size-sm);
+        color: var(--neutral-800);
+        border: 1px solid var(--neutral-300);
+      }
+      .credential-display span {
+        font-family: monospace;
+      }
+      .clear-cred-btn {
+        cursor: pointer;
+        font-weight: bold;
+        color: var(--neutral-500);
+        padding: 0 5px;
+      }
+      .token-status-line {
+        font-size: var(--font-size-xs);
+        color: var(--neutral-800);
+        margin: 0 0 var(--space-3) 0;
+        padding: var(--space-2);
+        background-color: var(--success-50);
+        border-radius: var(--radius-md);
+        text-align: center;
+      }
+      .token-status-line .active {
+        font-weight: bold;
+        color: var(--success-700);
+      }
+      .text-muted {
+        color: var(--neutral-500);
+      }
+      .font-medium {
+        font-weight: 500;
+      }
+      .mt-2 {
+        margin-top: var(--space-2);
+      }
+      .mb-2 {
+        margin-bottom: var(--space-2);
+      }
+      .date-input-group .form-input {
+        min-width: 0px;
+        max-width: 100px !important;
+        font-size: 12px !important;
+        padding: 8px 5px 8px 5px !important;
+      }
+      .form-select[multiple] option {
+        padding: 2px 0px 4px 0px !important;
+        border-bottom: 1px solid var(--neutral-200);
+        font-size: 13px !important;
+      }
+      .form-select[multiple] option:last-child {
+        border-bottom: none;
+      }
+      .collapsible-header {
+        cursor: pointer;
+        user-select: none; /* Ngăn bôi đen chữ khi click */
+      }
+      .collapsible-toggle {
+        font-size: var(--font-size-sm);
+        transition: transform var(--transition-fast);
+      }
+      .collapsible-content {
+        max-height: 0;
+        overflow: hidden;
+        /* Xóa padding và border khi bị thu gọn */
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        border-top: none !important;
+        transition: max-height 0.3s ease-in-out;
+      }
+      .collapsible-content.open {
+        max-height: 1000px; /* Chiều cao đủ lớn để chứa nội dung */
+        /* Khôi phục lại border khi mở ra */
+        border-top: 1px solid var(--neutral-200) !important;
+      }
+
+      /* === [NEW] TASK MANAGER UI === */
+      #task-manager-panel {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        max-width: 380px;
+        background-color: var(--neutral-800);
+        color: var(--neutral-0);
+        padding: var(--space-3) var(--space-4);
+        box-shadow: var(--shadow-lg);
+        border-top: 2px solid var(--primary-500);
+        transform: translateY(100%);
+        transition: transform 0.3s ease-in-out;
+        z-index: 100;
+      }
+      #task-manager-panel.visible {
+        transform: translateY(0);
+      }
+      .task-progress-bar-bg {
+        background-color: var(--neutral-600);
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+        margin: var(--space-2) 0;
+      }
+      .task-progress-bar-fg {
+        width: 0%;
+        height: 8px;
+        background-color: var(--primary-500);
+        transition: width 0.3s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar-container">
+      <!-- ======================= LICENSE CHECK SIDEBAR ======================= -->
+      <div id="license-check-sidebar" class="sidebar-content active">
+        <header class="sidebar-header">
+          <div class="sidebar-title">
+            <i class="fas fa-key"></i>
+            <span> License Check </span>
+          </div>
+          <div class="nav-actions">
+            <button
+              class="nav-button"
+              onclick="switchSidebar('main-sidebar')"
+              title="Back to Home"
+            >
+              <i class="fas fa-home"></i>
+            </button>
+          </div>
+        </header>
+        <main class="sidebar-main">
+          <div id="license-check-section" class="license-check-container">
+            <div class="license-input-group">
+              <br />
+              <input
+                type="text"
+                id="licenseCode"
+                placeholder="Nhập License..."
+              />
+              <div>
+                <p>
+                  <br />
+                  <br />
+                </p>
+              </div>
+            </div>
+            <div class="license-buttons">
+              <button
+                id="license-check-btn"
+                class="btn btn-primary"
+                onclick="checkLicense()"
+              >
+                Kiểm tra License
+              </button>
+              <button
+                class="btn btn-outline-secondary"
+                onclick="clearLicense()"
+                type="button"
+              >
+                Xóa License
+              </button>
+            </div>
+            <div
+              class="status-message"
+              id="license-status"
+              style="display: none"
+            ></div>
+          </div>
+        </main>
+      </div>
+      <!-- ======================= MAIN SIDEBAR ======================= -->
+      <div id="main-sidebar" class="sidebar-content">
+        <header class="sidebar-header">
+          <div class="sidebar-title">
+            <i class="fas fa-home"></i>
+            <span>OpenDB</span>
+          </div>
+          <div class="nav-actions">
+            <button
+              class="nav-button"
+              onclick="switchSidebar('account-sidebar')"
+              title="Account setting"
+            >
+              <i class="fas fa-user"></i>
+            </button>
+          </div>
+        </header>
+        <main class="sidebar-main">
+          <!-- Facebook Card -->
+          <section class="card">
+            <div
+              class="card-header collapsible-header"
+              onclick="toggleCollapse(this)"
+            >
+              <div class="card-title">
+                <i class="fab fa-facebook"></i> Facebook Marketing
+              </div>
+              <div class="collapsible-toggle"><i class="fas fa-plus"></i></div>
+            </div>
+            <div class="card-body collapsible-content" style="padding: 0">
+              <ul class="list">
+                <li
+                  id="FAD"
+                  class="list-item"
+                  onclick="switchSidebar('fb-ads-sidebar')"
+                >
+                  <div class="icon-circle icon-facebook">
+                    <i class="fab fa-facebook-f"></i>
+                  </div>
+                  <div class="list-item-content">(FAD) Facebook Ads Data</div>
+                  <div class="list-item-action">
+                    <i class="fas fa-chevron-right"></i>
+                  </div>
+                </li>
+                <li id="FBT" class="list-item" onclick="navigateToFbBilling()">
+                  <div class="icon-circle icon-billing">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                  </div>
+                  <div class="list-item-content">(FBT) FB Billing Tool</div>
+                  <div class="list-item-action">
+                    <i class="fas fa-chevron-right"></i>
+                  </div>
+                </li>
+                <li id="MPI" class="list-item">
+                  <div class="icon-circle icon-facebook">
+                    <i class="fab fa-meta"></i>
+                  </div>
+                  <div class="list-item-content">(MPI) Meta Page Insight</div>
+                  <div class="list-item-action">
+                    <i class="fas fa-chevron-right"></i>
+                  </div>
+                </li>
+                <li id="IID" class="list-item">
+                  <div class="icon-circle icon-facebook">
+                    <i class="fab fa-instagram"></i>
+                  </div>
+                  <div class="list-item-content">(IID) Instagram Insight</div>
+                  <div class="list-item-action">
+                    <i class="fas fa-chevron-right"></i>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+          <!-- Google Card -->
+          <section class="card">
+            <div
+              class="card-header collapsible-header"
+              onclick="toggleCollapse(this)"
+            >
+              <div class="card-title">
+                <i class="fab fa-google"></i> Google Marketing
+              </div>
+              <div class="collapsible-toggle"><i class="fas fa-plus"></i></div>
+            </div>
+            <div class="card-body collapsible-content" style="padding: 0">
+              <ul class="list">
+                <li id="GGA" class="list-item">
+                  <div class="icon-circle icon-google">
+                    <i class="fas fa-ad"></i>
+                  </div>
+                  <div class="list-item-content">(GGA) Google Ads</div>
+                  <div class="list-item-action">
+                    <i class="fas fa-chevron-right"></i>
+                  </div>
+                </li>
+                <li id="GAI" class="list-item">
+                  <div class="icon-circle icon-billing">
+                    <i class="fas fa-file-invoice"></i>
+                  </div>
+                  <div class="list-item-content">(GAI) Google Ads Invoice</div>
+                  <div class="list-item-action">
+                    <i class="fas fa-chevron-right"></i>
+                  </div>
+                </li>
+                <li id="GA4" class="list-item">
+                  <div class="icon-circle icon-google">
+                    <i class="fas fa-chart-line"></i>
+                  </div>
+                  <div class="list-item-content">(GA4) Google Analytics</div>
+                  <div class="list-item-action">
+                    <i class="fas fa-chevron-right"></i>
+                  </div>
+                </li>
+                <li id="GSC" class="list-item">
+                  <div class="icon-circle icon-google">
+                    <i class="fas fa-search"></i>
+                  </div>
+                  <div class="list-item-content">
+                    (GSC) Google Search Console
+                  </div>
+                  <div class="list-item-action">
+                    <i class="fas fa-chevron-right"></i>
+                  </div>
+                </li>
+                <li id="YTC" class="list-item">
+                  <div class="icon-circle icon-google">
+                    <i class="fab fa-youtube"></i>
+                  </div>
+                  <div class="list-item-content">(YTC) Youtube Channel</div>
+                  <div class="list-item-action">
+                    <i class="fas fa-chevron-right"></i>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+          <!-- TikTok Card -->
+          <section class="card">
+            <div
+              class="card-header collapsible-header"
+              onclick="toggleCollapse(this)"
+            >
+              <div class="card-title">
+                <i class="fab fa-tiktok"></i> TikTok Marketing
+              </div>
+              <div class="collapsible-toggle"><i class="fas fa-plus"></i></div>
+            </div>
+            <div
+              class="card-body collapsible-content"
+              style="padding: 0; border-top: 1px solid var(--neutral-200)"
+            >
+              <ul class="list">
+                <li
+                  id="TTA"
+                  class="list-item"
+                  onclick="navigateToTiktokModule('tta', '(TTA) Tiktok Ads')"
+                >
+                  <div class="icon-circle icon-tiktok">
+                    <i class="fas fa-bullhorn"></i>
+                  </div>
+                  <div class="list-item-content">(TTA) Tiktok Ads</div>
+                  <div class="list-item-action">
+                    <i class="fas fa-chevron-right"></i>
+                  </div>
+                </li>
+                <li
+                  id="GMV"
+                  class="list-item"
+                  onclick="navigateToTiktokModule('gmv', '(GMV) Tiktok GMV Ads')"
+                >
+                  <div class="icon-circle icon-tiktok">
+                    <i class="fas fa-store"></i>
+                  </div>
+                  <div class="list-item-content">(GMV) Tiktok GMV Ads</div>
+                  <div class="list-item-action">
+                    <i class="fas fa-chevron-right"></i>
+                  </div>
+                </li>
+                <li id="TTO" class="list-item">
+                  <div class="icon-circle icon-tiktok">
+                    <i class="fas fa-video"></i>
+                  </div>
+                  <div class="list-item-content">(TTO) Tiktok Organic</div>
+                  <div class="list-item-action">
+                    <i class="fas fa-chevron-right"></i>
+                  </div>
+                </li>
+                <li id="TTS" class="list-item">
+                  <div class="icon-circle icon-tiktok">
+                    <i class="fas fa-shopping-bag"></i>
+                  </div>
+                  <div class="list-item-content">
+                    (TTS) Tiktok Shop (Seller)
+                  </div>
+                  <div class="list-item-action">
+                    <i class="fas fa-chevron-right"></i>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+          <!-- Footer Card -->
+          <section class="card">
+            <div class="card-body" style="text-align: center">
+              <img
+                src="https://opendb.vn/wp-content/uploads/2025/06/image_Logo-OPENDB-ngang_j2Qa.webp"
+                alt="Logo OPENDB"
+                style="width: 120px; margin-bottom: 5px; margin-top: 10px"
+              />
+              <p
+                style="
+                  font-weight: 600;
+                  margin-bottom: var(--space-2);
+                  padding-bottom: var(--space-2);
+                  border-bottom: 1px solid var(--neutral-200);
+                "
+              >
+                DB CONNECTOR @ Bản quyền được bảo hộ
+              </p>
+              <div class="text-muted" style="font-size: var(--font-size-xs)">
+                <p id="lastRunRangeDisplay" class="mb-2">
+                  Cập nhật cuối: Từ 00:00:00 1/7/2025 đến 23:30:00 31/7/2025
+                </p>
+                <p class="mb-2">
+                  Phiên bản beta • Cập nhật cuối: 7/24/2025, 1:58:04 AM
+                </p>
+                <div class="font-medium">
+                  Thời hạn: 09/08/2099 (còn 1234 ngày)
+                </div>
+                <div class="text-muted">KEY: 121U2...</div>
+                <div class="font-medium mt-2">Dịch vụ đã kích hoạt:</div>
+                <ul
+                  class="text-muted"
+                  style="
+                    list-style: none;
+                    padding: 0;
+                    margin-top: var(--space-1);
+                  "
+                >
+                  <li>Facebook ads | 5 tài khoản | 1 lượt tải / ngày</li>
+                  <li>Google Ads | 3 tài khoản | 2 lượt tải / ngày</li>
+                </ul>
+              </div>
+              <div
+                id="usage-stats"
+                style="
+                  text-align: left;
+                  margin-top: var(--space-4);
+                  border-top: 1px solid var(--neutral-200);
+                  padding-top: var(--space-2);
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: var(--space-2);
+                  "
+                >
+                  <p class="font-medium" style="margin-bottom: 0">
+                    Dung lượng Google Sheet:
+                  </p>
+                  <button
+                    class="btn btn-ghost"
+                    onclick="handleCleanup()"
+                    title="Dọn dẹp ô trống"
+                    style="
+                      padding: 6px 6px !important;
+                      border: solid 1px #6b6b6b;
+                      border-radius: 50%;
+                    "
+                  >
+                    <i class="fas fa-broom"></i>
+                  </button>
+                </div>
+                <div class="text-muted" style="font-size: var(--font-size-xs)">
+                  <p>
+                    Ô đã dùng: <span id="usage-cells-text">Đang tải...</span>
+                  </p>
+                  <p>
+                    Sheet đã dùng:
+                    <span id="usage-sheets-text">Đang tải...</span>
+                  </p>
+                  <div
+                    style="
+                      background-color: var(--neutral-200);
+                      border-radius: var(--radius-sm);
+                      overflow: hidden;
+                      margin-top: var(--space-2);
+                    "
+                  >
+                    <div
+                      id="usage-progress-bar"
+                      style="
+                        width: 0%;
+                        height: 8px;
+                        background-color: var(--success-500);
+                        transition: width 0.5s ease;
+                      "
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+      <!-- ======================= ACCOUNT SETTING SIDEBAR ======================= -->
+      <div id="account-sidebar" class="sidebar-content">
+        <header class="sidebar-header">
+          <div class="sidebar-title">
+            <i class="fas fa-user"></i> <span> Account settings </span>
+          </div>
+          <div class="nav-actions">
+            <button
+              class="nav-button"
+              onclick="switchSidebar('main-sidebar')"
+              title="Back to Home"
+            >
+              <i class="fas fa-home"></i>
+            </button>
+          </div>
+        </header>
+        <main class="sidebar-main">
+          <!-- Facebook Account -->
+          <section class="card">
+            <div
+              class="card-header collapsible-header"
+              onclick="toggleCollapse(this)"
+            >
+              <div class="card-title">
+                <i class="fab fa-facebook"></i> Facebook Account
+              </div>
+              <div class="collapsible-toggle"><i class="fas fa-plus"></i></div>
+            </div>
+            <div
+              class="card-body collapsible-content"
+              style="padding: 0; border-top: 1px solid var(--neutral-200)"
+            >
+              <ul class="list"></ul>
+            </div>
+          </section>
+          <!-- Google Card -->
+          <section class="card">
+            <div
+              class="card-header collapsible-header"
+              onclick="toggleCollapse(this)"
+            >
+              <div class="card-title">
+                <i class="fab fa-google"></i> Google Account
+              </div>
+              <div class="collapsible-toggle"><i class="fas fa-plus"></i></div>
+            </div>
+            <div
+              class="card-body collapsible-content"
+              style="padding: 0; border-top: 1px solid var(--neutral-200)"
+            >
+              <ul class="list"></ul>
+            </div>
+          </section>
+          <!-- TikTok Card -->
+          <section class="card">
+            <div
+              class="card-header collapsible-header"
+              onclick="toggleCollapse(this)"
+            >
+              <div class="card-title">
+                <i class="fab fa-tiktok"></i> TikTok Account
+              </div>
+              <div class="collapsible-toggle"><i class="fas fa-plus"></i></div>
+            </div>
+            <div
+              class="card-body collapsible-content"
+              style="padding: 0; border-top: 1px solid var(--neutral-200)"
+            >
+              <div class="card-body">
+                <!-- Auth controls for TikTok -->
+                <div id="tiktok-auth-controls">
+                  <div id="connected-section" style="display: none">
+                    <p id="token-status" class="token-status-line"></p>
+                    <button
+                      class="btn btn-outline btn-full"
+                      onclick="onDisconnect()"
+                    >
+                      Ngắt kết nối
+                    </button>
+                  </div>
+                  <div id="config-section">
+                    <button
+                      id="config-btn"
+                      class="btn btn-primary btn-full"
+                      onclick="showAuthFields()"
+                    >
+                      <i class="fas fa-cog"></i> Cấu hình & Kết nối
+                    </button>
+                  </div>
+                  <div id="auth-section" class="hidden">
+                    <div class="form-group">
+                      <div class="credential-display" id="clientId-display">
+                        <span>7532...</span>
+                        <span
+                          class="clear-cred-btn"
+                          onclick="showCredentialInput('clientId')"
+                          >×</span
+                        >
+                      </div>
+                      <input
+                        type="text"
+                        id="clientId-input"
+                        class="form-input"
+                        placeholder="Nhập App ID..."
+                        style="display: none"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <div class="credential-display" id="clientSecret-display">
+                        <span>acba...</span>
+                        <span
+                          class="clear-cred-btn"
+                          onclick="showCredentialInput('clientSecret')"
+                          >×</span
+                        >
+                      </div>
+                      <input
+                        type="password"
+                        id="clientSecret-input"
+                        class="form-input"
+                        placeholder="Nhập mã secret..."
+                        style="display: none"
+                      />
+                    </div>
+                    <button
+                      id="auth-btn"
+                      class="btn btn-primary btn-full"
+                      onclick="onAuthorize()"
+                    >
+                      Đăng nhập & Cấp quyền
+                    </button>
+                  </div>
+                  <div id="status" class="status-message"></div>
+                </div>
+
+                <div
+                  id="tiktok-account-selection-container"
+                  class="hidden"
+                  style="margin-top: var(--space-4)"
+                >
+                  <div class="form-group">
+                    <label
+                      for="tiktok-settings-search-account"
+                      class="form-label"
+                      >Tìm tài khoản:</label
+                    >
+                    <input
+                      type="text"
+                      id="tiktok-settings-search-account"
+                      class="form-input"
+                      onkeyup="filterSettingsAccounts()"
+                      placeholder="Nhập tên hoặc ID..."
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="form-group"
+                      style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                      "
+                    >
+                      <label
+                        for="tiktok-settings-account-list"
+                        class="form-label"
+                        style="margin-bottom: 0"
+                        >Chọn tài khoản để lưu:</label
+                      >
+                      <button
+                        id="delete-saved-selection-btn"
+                        class="btn btn-outline"
+                        title="Xóa các tài khoản đã lưu"
+                      >
+                        <i class="fas fa-close"></i>
+                      </button>
+                    </div>
+                    <select
+                      name="accounts"
+                      id="tiktok-settings-account-list"
+                      class="form-select"
+                      multiple
+                    ></select>
+                  </div>
+                  <button
+                    id="save-tiktok-selection-btn"
+                    class="btn btn-primary btn-full"
+                    onclick="saveTiktokSelection()"
+                  >
+                    <i class="fas fa-save"></i> Lưu lựa chọn
+                  </button>
+                  <div
+                    id="save-status"
+                    class="status-message"
+                    style="margin-top: var(--space-2)"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Footer Card -->
+        </main>
+      </div>
+      <!-- ======================= FACEBOOK ADS SIDEBAR (Placeholder) ======================= -->
+      <div id="fb-ads-sidebar" class="sidebar-content">
+        <header class="sidebar-header">
+          <div class="sidebar-title">
+            <i class="fab fa-facebook-f"></i> Facebook Ads Data
+          </div>
+          <div class="nav-actions">
+            <button
+              class="nav-button"
+              onclick="switchSidebar('main-sidebar')"
+              title="Back to Home"
+            >
+              <i class="fas fa-home"></i>
+            </button>
+          </div>
+        </header>
+        <main class="sidebar-main">
+          <p>Nội dung cho Facebook Ads sẽ được hiển thị ở đây.</p>
+        </main>
+      </div>
+
+      <!-- ======================= [NEW] FB BILLING SIDEBAR ======================= -->
+      <div id="fb-billing-sidebar" class="sidebar-content">
+        <header class="sidebar-header">
+          <div class="sidebar-title">
+            <i class="fas fa-file-invoice-dollar"></i> FB Billing Tool
+          </div>
+          <div class="nav-actions">
+            <button
+              class="nav-button"
+              onclick="switchSidebar('main-sidebar')"
+              title="Back to Home"
+            >
+              <i class="fas fa-home"></i>
+            </button>
+          </div>
+        </header>
+        <main class="sidebar-main" id="fb-billing-main-content">
+          <!-- Content from old FB Billing sidebar.html will be injected here by JavaScript -->
+        </main>
+      </div>
+      <!-- ======================= TIKTOK DATA SIDEBAR ======================= -->
+      <div id="tiktok-data-sidebar" class="sidebar-content">
+        <header class="sidebar-header">
+          <div class="sidebar-title" id="data-view-title"></div>
+          <div class="nav-actions">
+            <button
+              class="nav-button"
+              onclick="switchSidebar('main-sidebar')"
+              title="Back to Home"
+            >
+              <i class="fas fa-home"></i>
+            </button>
+          </div>
+        </header>
+
+        <main class="sidebar-main">
+          <!-- Card for Token Status & Account Loading -->
+          <section class="card">
+            <div class="card-body">
+              <p id="data-view-token-status" class="token-status-line"></p>
+            </div>
+          </section>
+
+          <!-- Card for Report Settings -->
+          <section class="card">
+            <div class="card-header">
+              <h4 class="card-title" style="font-size: var(--font-size-sm)">
+                Cài đặt báo cáo
+              </h4>
+            </div>
+            <div class="card-body">
+              <div class="date-range-container">
+                <div class="form-group date-input-group">
+                  <label for="start-date" class="form-label">Từ ngày:</label>
+                  <input type="date" id="start-date" class="form-input" />
+                </div>
+                <div class="form-group date-input-group">
+                  <label for="end-date" class="form-label">Đến ngày:</label>
+                  <input type="date" id="end-date" class="form-input" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="search-account" class="form-label"
+                  >Tìm tài khoản:</label
+                >
+                <input
+                  type="text"
+                  id="search-account"
+                  class="form-input"
+                  onkeyup="filterAccounts()"
+                  placeholder="Nhập tên hoặc ID..."
+                />
+              </div>
+              <div class="form-group">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                  "
+                >
+                  <label
+                    for="account-list"
+                    class="form-label"
+                    style="margin-bottom: 0"
+                    >Chọn tài khoản:</label
+                  >
+                  <button
+                    id="apply-saved-selection-btn"
+                    class="btn btn-outline"
+                    title="Áp dụng lựa chọn đã lưu"
+                  >
+                    <i class="fas fa-refresh"></i>
+                  </button>
+                </div>
+                <select
+                  name="accounts"
+                  id="account-list"
+                  class="form-select"
+                  multiple
+                  onchange="onAccountChange()"
+                ></select>
+              </div>
+
+              <div id="shop-select-group" class="form-group hidden">
+                <label for="shop-select" class="form-label"
+                  >Chọn Shop (For GMV):</label
+                >
+                <select id="shop-select" class="form-select" multiple></select>
+              </div>
+
+              <div class="form-group">
+                <label for="template-select" class="form-label"
+                  >Template báo cáo:</label
+                >
+                <select
+                  id="template-select"
+                  class="form-select"
+                  onchange="populateFieldsUI()"
+                ></select>
+              </div>
+              <div class="form-group">
+                <div class="fields-container-header">
+                  <label class="form-label" style="margin-bottom: 0"
+                    >Trường dữ liệu:</label
+                  >
+                  <a
+                    href="#"
+                    class="check-all-btn"
+                    onclick="toggleCheckAll(event)"
+                    >Chọn tất cả</a
+                  >
+                </div>
+                <div id="fields-container" class="fields-container"></div>
+              </div>
+              <div class="form-group">
+                <label for="sheet-name-select" class="form-label"
+                  >Sheet name:</label
+                >
+                <select
+                  id="sheet-name-select"
+                  class="form-select"
+                  onchange="handleSheetNameChange()"
+                >
+                  <option value="CREATE_NEW">--- TẠO SHEET MỚI ---</option>
+                </select>
+              </div>
+              <div id="new-sheet-name-group" class="form-group">
+                <label for="new-sheet-name" class="form-label"
+                  >Nhập tên sheet mới:</label
+                >
+                <input
+                  type="text"
+                  id="new-sheet-name"
+                  class="form-input"
+                  placeholder="Ví dụ: Tiktok Report"
+                />
+              </div>
+              <div
+                id="overwrite-group"
+                class="form-group"
+                style="display: flex; align-items: center; gap: var(--space-2)"
+              >
+                <input
+                  type="checkbox"
+                  id="overwrite-data"
+                  checked
+                  style="width: auto"
+                />
+                <label
+                  for="overwrite-data"
+                  class="form-label"
+                  style="margin-bottom: 0"
+                  >Ghi đè dữ liệu cũ</label
+                >
+              </div>
+            </div>
+            <div class="card-footer">
+              <button
+                id="get-data-btn"
+                class="btn btn-primary btn-full"
+                onclick="onGetData()"
+              >
+                <i class="fas fa-download"></i> Xác nhận & Tải dữ liệu
+              </button>
+              <div id="data-status" class="status-message"></div>
+            </div>
+          </section>
+
+          <!-- Scheduling Card -->
+          <section class="card">
+            <div class="card-header">
+              <h4 class="card-title" style="font-size: var(--font-size-sm)">
+                <i class="fas fa-clock"></i> Đặt lịch tự động
+              </h4>
+            </div>
+            <div class="card-body">
+              <div
+                id="schedule-status-display"
+                class="text-muted"
+                style="white-space: pre-wrap; margin-bottom: var(--space-3)"
+              >
+                Đang tải trạng thái...
+              </div>
+
+              <div id="schedule-form" class="hidden">
+                <div class="form-group">
+                  <label for="schedule-frequency" class="form-label"
+                    >Tần suất quét:</label
+                  >
+                  <select id="schedule-frequency" class="form-select">
+                    <option value="6">Mỗi 6 giờ</option>
+                    <option value="12">Mỗi 12 giờ</option>
+                    <option value="24">Mỗi 24 giờ</option>
+                  </select>
+                </div>
+                <div class="action-group">
+                  <button
+                    class="btn btn-primary"
+                    onclick="handleSetSchedule('TIKTOK')"
+                  >
+                    <i class="fas fa-check"></i> Lưu lịch
+                  </button>
+                  <button
+                    class="btn btn-outline"
+                    onclick="handleCancelSchedule('TIKTOK')"
+                  >
+                    <i class="fas fa-trash"></i> Hủy lịch
+                  </button>
+                </div>
+              </div>
+              <button
+                id="show-schedule-btn"
+                class="btn btn-secondary btn-full"
+                onclick="document.getElementById('schedule-form').classList.remove('hidden'); this.classList.add('hidden');"
+              >
+                <i class="fas fa-calendar-plus"></i> Cài đặt lịch
+              </button>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <!-- [NEW] Task Manager Panel -->
+    <div id="task-manager-panel">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <p
+          id="task-description"
+          class="font-medium"
+          style="font-size: var(--font-size-sm); margin: 0"
+        ></p>
+        <p
+          id="task-progress-text"
+          class="text-muted"
+          style="font-size: var(--font-size-xs); margin: 0"
+        ></p>
+      </div>
+      <div class="task-progress-bar-bg">
+        <div id="task-progress-bar-fg" class="task-progress-bar-fg"></div>
+      </div>
+      <div class="action-group" style="justify-content: flex-end">
+        <button
+          id="task-pause-btn"
+          class="btn btn-outline"
+          style="color: white; border-color: white"
+          onclick="taskManager.pause()"
+        >
+          <i class="fas fa-pause"></i> Tạm dừng
+        </button>
+        <button
+          id="task-resume-btn"
+          class="btn btn-secondary hidden"
+          onclick="taskManager.resume()"
+        >
+          <i class="fas fa-play"></i> Tiếp tục
+        </button>
+        <button
+          id="task-stop-btn"
+          class="btn btn-outline"
+          style="color: var(--error-500); border-color: var(--error-500)"
+          onclick="taskManager.stop()"
+        >
+          <i class="fas fa-stop"></i> Dừng hẳn
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // === [REFACTORED] SERVER COMMUNICATION ===
+      /**
+       * A single gateway function to communicate with the backend library.
+       * This makes future updates much easier.
+       * @param {string} functionName The name of the function to call in the Core library.
+       * @param {Array} args An array of arguments to pass to the function.
+       * @returns {Promise} A promise that resolves with the result from the backend.
+       */
+      function callLibrary(functionName, args = []) {
+        return new Promise((resolve, reject) => {
+          google.script.run
+            .withSuccessHandler(resolve)
+            .withFailureHandler(reject)
+            .callLibrary(functionName, args);
+        });
+      }
+      // === GLOBAL FUNCTIONS (Required by HTML) ===
+      function checkLicense(savedLicense) {
+        statusDisplay = document.getElementById("license-status");
+        if (!savedLicense) {
+          const licenseCode = document
+            .getElementById("licenseCode")
+            .value.trim();
+          if (!licenseCode) {
+            statusDisplay.textContent = "Vui lòng nhập License Code.";
+            statusDisplay.className = "error";
+            statusDisplay.style.display = "block";
+            return;
+          }
+          statusDisplay.textContent = "Đang kiểm tra License...";
+          statusDisplay.className = "info";
+          statusDisplay.style.display = "block";
+          google.script.run
+            .withSuccessHandler((result) => {
+              if (result.isValid) {
+                statusDisplay.textContent = "License hợp lệ!";
+                statusDisplay.className = "success";
+                statusDisplay.style.display = "block";
+                saveLicenseKey(); // Save the license key
+                showLock(result.permissions);
+                switchSidebar("main-sidebar");
+              } else {
+                statusDisplay.textContent =
+                  "License không hợp lệ. Vui lòng thử lại.";
+                statusDisplay.className = "error";
+                statusDisplay.style.display = "block";
+              }
+            })
+            .withFailureHandler((err) => {
+              statusDisplay.textContent = err.message;
+              statusDisplay.className = "error";
+              statusDisplay.style.display = "block";
+            })
+            .callLibrary("checkLicense", [licenseCode]);
+        } else {
+          const licenseInput = document.getElementById("licenseCode");
+          licenseInput.value =
+            "**************************************************";
+          statusDisplay.textContent = "Đang kiểm tra License đã lưu...";
+          statusDisplay.className = "info";
+          statusDisplay.style.display = "block";
+          // Call the backend to check the saved license
+          google.script.run
+            .withSuccessHandler((result) => {
+              if (result.isValid) {
+                statusDisplay.textContent = "License hợp lệ!";
+                statusDisplay.className = "success";
+                statusDisplay.style.display = "block";
+                // Call showLock with the permissions from the result
+                showLock(result.permissions);
+                switchSidebar("main-sidebar");
+              } else {
+                statusDisplay.textContent =
+                  "License không hợp lệ. Vui lòng thử lại.";
+                statusDisplay.className = "error";
+                statusDisplay.style.display = "block";
+              }
+            })
+            .withFailureHandler((err) => {
+              statusDisplay.textContent = err.message;
+              statusDisplay.className = "error";
+              statusDisplay.style.display = "block";
+            })
+            .callLibrary("checkLicense", [savedLicense]);
+        }
+      }
+      function clearLicense() {
+        const statusDisplay = document.getElementById("license-status");
+        statusDisplay.textContent = "Đang xóa License...";
+        statusDisplay.className = "info";
+        statusDisplay.style.display = "block";
+        google.script.run
+          .withSuccessHandler(function (result) {
+            if (result.success) {
+              const licenseInput = document.getElementById("licenseCode"); // Adjust ID as needed
+              if (licenseInput) {
+                licenseInput.value = "";
+              }
+              statusDisplay.textContent = "License đã được xóa thành công.";
+              statusDisplay.className = "success";
+              statusDisplay.style.display = "block";
+            }
+          })
+          .withFailureHandler(function (error) {
+            statusDisplay.textContent = "Lỗi khi xóa License: " + error;
+            statusDisplay.className = "error";
+            statusDisplay.style.display = "block";
+          })
+          .callLibrary("clearSavedLicenseKey");
+      }
+      function loadSavedLicense() {
+        google.script.run
+          .withSuccessHandler(function (savedKey) {
+            if (savedKey && savedKey.trim() !== "") {
+              checkLicense(savedKey);
+            }
+          })
+          .withFailureHandler(function (error) {
+            console.log("Error loading saved license: " + error);
+          })
+          .callLibrary("getSavedLicenseKey");
+      }
+
+      function saveLicenseKey() {
+        const licenseInput = document.getElementById("licenseCode"); // Adjust ID as needed
+        if (licenseInput && licenseInput.value.trim() !== "") {
+          google.script.run
+            .withSuccessHandler(function (result) {
+              if (result.success) {
+                console.log("License key saved");
+              }
+            })
+            .withFailureHandler(function (error) {
+              console.log("Error saving license: " + error);
+            })
+            .callLibrary("saveLicenseKey", [licenseInput.value.trim()]);
+        }
+      }
+
+      // ========== show lock =========//
+      function showLock(isUnLocked) {
+        const listItems = document.querySelectorAll(".list-item");
+
+        listItems.forEach((item) => {
+          const actionIcon = item.querySelector(".list-item-action i");
+
+          // Kiểm tra xem icon có tồn tại không trước khi thao tác
+          if (actionIcon) {
+            if (isUnLocked[item.id]) {
+              // Nếu được mở khóa: đặt lại style và đảm bảo icon là mũi tên
+              item.style.opacity = "1";
+              item.style.cursor = "default";
+
+              // Thay icon: Xóa class fa-lock và thêm fa-chevron-right
+              actionIcon.classList.remove("fa-lock");
+              actionIcon.classList.add("fa-chevron-right");
+            } else {
+              // Nếu bị khóa: đặt style mờ và thay đổi con trỏ
+              item.style.opacity = "0.5";
+              item.style.cursor = "not-allowed";
+
+              // Thay icon: Xóa class fa-chevron-right và thêm fa-lock
+              actionIcon.classList.remove("fa-chevron-right");
+              actionIcon.classList.add("fa-lock");
+            }
+          }
+        });
+      }
+      // === GLOBAL APP LOGIC ===
+      let currentViewType = "tta";
+
+      function switchSidebar(targetId) {
+        document.querySelectorAll(".sidebar-content").forEach((sidebar) => {
+          sidebar.classList.remove("active");
+        });
+        const targetSidebar = document.getElementById(targetId);
+        if (targetSidebar) {
+          targetSidebar.classList.add("active");
+        }
+      }
+
+      function navigateToTiktokModule(type, title) {
+        currentViewType = type;
+        switchSidebar("tiktok-data-sidebar");
+        window.tiktokModule.showDataView(type, title);
+        loadCurrentScheduleStatus("TIKTOK_" + type.toUpperCase());
+      }
+
+      function navigateToFbBilling() {
+        switchSidebar("fb-billing-sidebar");
+        if (window.fbBillingModule && !window.fbBillingModule.isInitialized) {
+          window.fbBillingModule.init();
+        }
+      }
+
+      // === COLLAPSE LOGIC ===
+      function toggleCollapse(headerElement) {
+        const content = headerElement.nextElementSibling;
+        const icon = headerElement.querySelector(".collapsible-toggle i");
+
+        if (content.classList.contains("open")) {
+          content.classList.remove("open");
+          icon.classList.remove("fa-minus");
+          icon.classList.add("fa-plus");
+        } else {
+          content.classList.add("open");
+          icon.classList.remove("fa-plus");
+          icon.classList.add("fa-minus");
+        }
+      }
+
+      // === [NEW] FB BILLING MODULE LOGIC ===
+      window.fbBillingModule = (function () {
+        let isInitialized = false;
+        let accountsData = [];
+
+        const htmlContent = `
+                <div class="card">
+                    <h4 class="form-label" id="fb-configTitle">Cấu Hình</h4>
+                    <button class="btn btn-primary btn-full" onclick="window.fbBillingModule.runFunction('loadConfig', 'Đang tải cấu hình...')" id="fb-btnLoadConfig">1. Tải Cấu Hình</button>
+                </div>
+                <div class="card">
+                    <h4 class="form-label" id="fb-accountDataTitle">Dữ Liệu Tài Khoản</h4>
+                    <button class="btn btn-secondary btn-full" onclick="window.fbBillingModule.runFunction('getAllFacebookAdAccounts', 'Đang cập nhật danh sách TK...')" id="fb-btnUpdateAccounts">2. Cập Nhật Danh Sách TK</button>
+                </div>
+                <div class="card">
+                    <h4 class="form-label" id="fb-billingDataTitle">Dữ Liệu Billing</h4>
+                    <div class="date-range-container">
+                        <div class="date-input-group">
+                            <label for="fb-startDate" class="form-label">Từ ngày:</label>
+                            <input type="date" id="fb-startDate" class="form-input">
+                        </div>
+                        <div class="date-input-group">
+                            <label for="fb-endDate" class="form-label">Đến ngày:</label>
+                            <input type="date" id="fb-endDate" class="form-input">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fb-searchAccount" class="form-label">Tìm kiếm tài khoản:</label>
+                        <input type="text" id="fb-searchAccount" class="form-input" placeholder="Nhập để tìm kiếm..." onkeyup="window.fbBillingModule.filterAccounts()">
+                    </div>
+                    <div class="form-group">
+                        <label for="fb-accountSelect" class="form-label">Chọn tài khoản (giữ Ctrl/Cmd):</label>
+                        <select id="fb-accountSelect" class="form-select" multiple></select>
+                    </div>
+                    <button class="btn btn-primary btn-full" onclick="window.fbBillingModule.fetchAndProcessBilling()" id="fb-btnFetchProcess">3. Tải & Xử lý FB Billing</button>
+                </div>
+                <div class="card">
+                    <div class="card-header collapsible-header" onclick="toggleCollapse(this)">
+                        <h4 class="card-title" style="font-size: var(--font-size-sm)">Đặt lịch quét FB Billing</h4>
+                        <div class="collapsible-toggle"><i class="fas fa-plus"></i></div>
+                    </div>
+                    <div class="card-body collapsible-content">
+                        <div id="fb-schedule-status-display" class="text-muted" style="white-space: pre-wrap; margin-bottom: var(--space-3);">Đang tải trạng thái...</div>
+                        <div id="fb-scheduleForm" class="hidden">
+                            <div class="form-group">
+                                <label for="fb-scheduleFrequency" class="form-label">Tần suất quét:</label>
+                                <select id="fb-scheduleFrequency" class="form-select">
+                                    <option value="6">Mỗi 6 giờ</option>
+                                    <option value="12">Mỗi 12 giờ</option>
+                                    <option value="24">Mỗi 24 giờ</option>
+                                </select>
+                            </div>
+                            <div class="action-group">
+                                <button class="btn btn-primary" onclick="handleSetSchedule('FB_BILLING')"><i class="fas fa-check"></i> Lưu lịch</button>
+                                <button class="btn btn-outline" onclick="handleCancelSchedule('FB_BILLING')"><i class="fas fa-trash"></i> Hủy lịch</button>
+                            </div>
+                        </div>
+                        <button id="fb-show-schedule-btn" class="btn btn-secondary btn-full" onclick="document.getElementById('fb-scheduleForm').classList.remove('hidden'); this.classList.add('hidden');">
+                            <i class="fas fa-calendar-plus"></i> Cài đặt lịch
+                        </button>
+                    </div>
+                </div>
+                <div class="status-message" id="fb-statusMessage"></div>
+            `;
+
+        function showStatus(message, isError = false) {
+          const statusDiv = document.getElementById("fb-statusMessage");
+          statusDiv.textContent = message;
+          statusDiv.style.display = message ? "block" : "none";
+          statusDiv.className = "status-message";
+          if (isError) statusDiv.classList.add("error");
+        }
+
+        async function runFunction(functionName, loadingMessage, args = null) {
+          showStatus(loadingMessage);
+          try {
+            const result = await callLibrary(functionName, ["vi", args]);
+            showStatus(result);
+            if (functionName === "getAllFacebookAdAccounts") {
+              await refreshBillingData();
+            }
+          } catch (error) {
+            showStatus(error.message, true);
+          }
+        }
+
+        async function fetchAndProcessBilling() {
+          const startDate = document.getElementById("fb-startDate").value;
+          const endDate = document.getElementById("fb-endDate").value;
+
+          if (!startDate || !endDate) {
+            showStatus('Lỗi: Vui lòng chọn "Từ ngày" và "Đến ngày".', true);
+            return;
+          }
+
+          const startDateTime = `${startDate}T00:00:00`;
+          const endDateTime = `${endDate}T23:59:59`;
+
+          const selectedOptions = Array.from(
+            document.getElementById("fb-accountSelect").selectedOptions
+          ).map((option) => option.value);
+          if (selectedOptions.length === 0) {
+            showStatus("Lỗi: Vui lòng chọn ít nhất một tài khoản.", true);
+            return;
+          }
+
+          const params = {
+            accountIds: selectedOptions,
+            startDate: startDateTime,
+            endDate: endDateTime,
+          };
+          taskManager.start("FB_BILLING", params, "Tải dữ liệu FB Billing");
+        }
+
+        function filterAccounts() {
+          const searchTerm = document
+            .getElementById("fb-searchAccount")
+            .value.toLowerCase();
+          const accountSelect = document.getElementById("fb-accountSelect");
+          accountSelect.innerHTML = "";
+          const filteredAccounts = accountsData.filter(
+            (account) =>
+              (account.id && account.id.toLowerCase().includes(searchTerm)) ||
+              (account.name && account.name.toLowerCase().includes(searchTerm))
+          );
+          if (filteredAccounts.length > 0) {
+            filteredAccounts.forEach((account, index) => {
+              const option = document.createElement("option");
+              option.value = account.id;
+              option.textContent = `${index + 1}. ${account.name} - ${
+                account.id
+              }`;
+              accountSelect.appendChild(option);
+            });
+          } else {
+            const option = document.createElement("option");
+            option.textContent = "Không có tài khoản nào";
+            accountSelect.appendChild(option);
+          }
+        }
+
+        async function refreshBillingData() {
+          showStatus("Đang tải danh sách tài khoản...");
+          try {
+            const newAccounts = await callLibrary("getAccountsForSelection", [
+              "vi",
+            ]);
+            accountsData = newAccounts;
+            filterAccounts();
+            showStatus("");
+          } catch (error) {
+            showStatus(error.message, true);
+          }
+        }
+
+        function init() {
+          if (isInitialized) return;
+          document.getElementById("fb-billing-main-content").innerHTML =
+            htmlContent;
+
+          const today = new Date();
+          const sevenDaysAgo = new Date();
+          sevenDaysAgo.setDate(today.getDate() - 7);
+
+          const formatDate = (date) => date.toISOString().split("T")[0];
+
+          document.getElementById("fb-startDate").value =
+            formatDate(sevenDaysAgo);
+          document.getElementById("fb-endDate").value = formatDate(today);
+
+          refreshBillingData();
+          loadCurrentScheduleStatus("FB_BILLING");
+          isInitialized = true;
+        }
+
+        return {
+          init,
+          runFunction,
+          fetchAndProcessBilling,
+          filterAccounts,
+          get isInitialized() {
+            return isInitialized;
+          },
+        };
+      })();
+
+      // === TIKTOK MODULE LOGIC (self-contained) ===
+      // === [NEW] LOGIC FOR ACCOUNT SETTINGS SIDEBAR ===
+
+      // Function to filter accounts in the settings page
+      function filterSettingsAccounts() {
+        const filter = document
+          .getElementById("tiktok-settings-search-account")
+          .value.toUpperCase();
+        const select = document.getElementById("tiktok-settings-account-list");
+        const options = select.getElementsByTagName("option");
+        for (let i = 0; i < options.length; i++) {
+          const txtValue = options[i].textContent || options[i].innerText;
+          options[i].style.display = txtValue.toUpperCase().includes(filter)
+            ? ""
+            : "none";
+        }
+      }
+
+      // Function to populate the account list in the settings page
+      async function populateSettingsAccountList() {
+        const selectElement = document.getElementById(
+          "tiktok-settings-account-list"
+        );
+        selectElement.innerHTML = "<option disabled>Đang tải...</option>";
+        try {
+          // Get all available accounts and previously saved selections simultaneously
+          const [allAccounts, savedSelection] = await Promise.all([
+            callLibrary("getAdvertiserAccounts"),
+            callLibrary("getTiktokAccountSelection"), // New backend function
+          ]);
+
+          selectElement.innerHTML = ""; // Clear loading message
+
+          if (allAccounts && allAccounts.length > 0) {
+            allAccounts.forEach((acc, index) => {
+              const option = document.createElement("option");
+              option.value = acc.advertiser_id;
+              option.textContent = `${index + 1}. ${acc.advertiser_name} (ID: ${
+                acc.advertiser_id
+              })`;
+
+              // Check if this account ID was in the saved selection
+              if (
+                savedSelection &&
+                savedSelection.includes(acc.advertiser_id)
+              ) {
+                option.selected = true;
+              }
+
+              selectElement.appendChild(option);
+            });
+          } else {
+            selectElement.innerHTML =
+              "<option disabled>Không tìm thấy tài khoản nào.</option>";
+          }
+        } catch (err) {
+          selectElement.innerHTML = `<option disabled>Lỗi: ${err.message}</option>`;
+        }
+      }
+
+      // Function to handle saving the selection
+      async function saveTiktokSelection() {
+        const saveBtn = document.getElementById("save-tiktok-selection-btn");
+        const statusDiv = document.getElementById("save-status");
+        saveBtn.disabled = true;
+        saveBtn.innerHTML =
+          '<i class="fas fa-spinner fa-spin"></i> Đang lưu...';
+
+        const selectedIds = Array.from(
+          document.getElementById("tiktok-settings-account-list")
+            .selectedOptions
+        ).map((opt) => opt.value);
+
+        try {
+          await callLibrary("saveTiktokAccountSelection", [selectedIds]); // New backend function
+          statusDiv.textContent = "Đã lưu lựa chọn thành công!";
+          statusDiv.className = "status-message success";
+          statusDiv.style.display = "block";
+        } catch (e) {
+          statusDiv.textContent = `Lỗi: ${e.message}`;
+          statusDiv.className = "status-message error";
+          statusDiv.style.display = "block";
+        } finally {
+          saveBtn.disabled = false;
+          saveBtn.innerHTML = '<i class="fas fa-save"></i> Lưu lựa chọn';
+          // Hide status message after 3 seconds
+          setTimeout(() => {
+            statusDiv.style.display = "none";
+          }, 3000);
+        }
+      }
+
+      // Function to apply the saved selection on the data page
+      async function applySavedSelection(event) {
+        event.preventDefault();
+        const selectElement = document.getElementById("account-list");
+        const statusDiv = document.getElementById("data-status");
+        statusDiv.textContent = "Đang áp dụng lựa chọn đã lưu...";
+        statusDiv.className = "status-message info";
+        statusDiv.style.display = "block";
+
+        try {
+          const savedSelection = await callLibrary("getTiktokAccountSelection");
+          if (savedSelection && savedSelection.length > 0) {
+            const options = selectElement.options;
+            for (let i = 0; i < options.length; i++) {
+              options[i].selected = savedSelection.includes(options[i].value);
+            }
+          }
+          statusDiv.textContent = "Đã áp dụng lựa chọn thành công!";
+          statusDiv.className = "status-message success";
+          statusDiv.style.display = "block";
+        } catch (e) {
+          statusDiv.textContent = `Lỗi: ${e.message}`;
+          statusDiv.className = "status-message error";
+          statusDiv.style.display = "block";
+        } finally {
+          // Hide status message after 3 seconds
+          setTimeout(() => {
+            statusDiv.style.display = "none";
+          }, 3000);
+        }
+      }
+      async function deleteSavedTiktokSelection(event) {
+        event.preventDefault();
+        const statusDiv = document.getElementById("save-status");
+        statusDiv.textContent = "Đang xóa lựa chọn đã lưu...";
+        statusDiv.className = "status-message info";
+        statusDiv.style.display = "block";
+
+        try {
+          await callLibrary("deleteSavedTiktokAccount"); // New backend function
+          statusDiv.textContent = "Đã xóa lựa chọn thành công!";
+          statusDiv.className = "status-message success";
+          statusDiv.style.display = "block";
+          populateSettingsAccountList(); // Refresh the account list
+        } catch (e) {
+          statusDiv.textContent = `Lỗi: ${e.message}`;
+          statusDiv.className = "status-message error";
+          statusDiv.style.display = "block";
+        } finally {
+          // Hide status message after 3 seconds
+          setTimeout(() => {
+            statusDiv.style.display = "none";
+          }, 3000);
+        }
+      }
+      window.tiktokModule = (function () {
+        let reportTemplates = {};
+
+        function formatDateToYYYYMMDD(date) {
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, "0");
+          const day = String(date.getDate()).padStart(2, "0");
+          return `${year}-${month}-${day}`;
+        }
+
+        function showDataView(type, title) {
+          document.getElementById(
+            "data-view-title"
+          ).innerHTML = `<i class="fab fa-tiktok"></i> ${title}`;
+          document
+            .getElementById("shop-select-group")
+            .classList.toggle("hidden", type !== "gmv");
+          callLibrary("getTiktokAccountSelection").then((savedIds) => {
+            const select = document.getElementById("account-list");
+            if (!savedIds || savedIds.length === 0) {
+              select.innerHTML =
+                "<option disabled>Chưa lưu tài khoản nào. Vào Cài đặt để cấu hình.</option>";
+              select.disabled = true;
+            } else {
+              callLibrary("getAdvertiserAccounts").then((allAccounts) => {
+                select.disabled = false;
+                select.innerHTML = "";
+                allAccounts
+                  .filter((acc) => savedIds.includes(acc.advertiser_id))
+                  .forEach((acc, idx) => {
+                    const option = document.createElement("option");
+                    option.value = acc.advertiser_id;
+                    option.textContent = `${idx + 1}. ${
+                      acc.advertiser_name
+                    } (ID: ${acc.advertiser_id})`;
+                    select.appendChild(option);
+                  });
+                if (select.options.length === 0) {
+                  select.innerHTML =
+                    "<option disabled>Không có tài khoản nào phù hợp với lựa chọn đã lưu.</option>";
+                  select.disabled = true;
+                }
+              });
+            }
+          });
+          callLibrary("getSheetNames").then(populateSheetNames);
+          callLibrary("getReportTemplates").then(setupTemplates);
+        }
+
+        // Inside window.tiktokModule
+        function init() {
+          callLibrary("checkAuthStatus").then(updateUIBasedOnAuthStatus);
+          const today = new Date();
+          const todayStr = formatDateToYYYYMMDD(today);
+          document.getElementById("start-date").value = todayStr;
+          document.getElementById("end-date").value = todayStr;
+          updateUsageStats();
+
+          // === [NEW] EVENT LISTENERS ===
+          document.getElementById("save-tiktok-selection-btn").onclick =
+            saveTiktokSelection;
+          document.getElementById("apply-saved-selection-btn").onclick =
+            applySavedSelection;
+          document.getElementById("delete-saved-selection-btn").onclick =
+            deleteSavedTiktokSelection;
+        }
+
+        // [MODIFIED] updateUIBasedOnAuthStatus function
+        function updateUIBasedOnAuthStatus(status) {
+          const isLoggedIn = status && status.isLoggedIn;
+          const tokenText = isLoggedIn
+            ? `Trạng thái token: <span class="active">Active</span> (${status.shortToken}...)`
+            : "Chưa kết nối.";
+          if (document.getElementById("data-view-token-status")) {
+            document.getElementById("data-view-token-status").innerHTML =
+              tokenText;
+          }
+          const connectedSectionSettings =
+            document.getElementById("connected-section");
+          const configSectionSettings =
+            document.getElementById("config-section");
+          const accountSelectionContainer = document.getElementById(
+            "tiktok-account-selection-container"
+          );
+          if (isLoggedIn) {
+            document.getElementById("token-status").innerHTML = tokenText;
+            connectedSectionSettings.style.display = "block";
+            configSectionSettings.style.display = "none";
+            accountSelectionContainer.classList.remove("hidden");
+            populateSettingsAccountList();
+          } else {
+            connectedSectionSettings.style.display = "none";
+            configSectionSettings.style.display = "block";
+            accountSelectionContainer.classList.add("hidden");
+          }
+
+          // Shared auth section
+          document.getElementById("auth-section").classList.add("hidden");
+          document.getElementById("status").style.display = "none";
+        }
+
+        window.onDisconnect = async function () {
+          showStatus("Đang ngắt kết nối...", "info");
+          try {
+            deleteSavedTiktokSelection();
+            await callLibrary("disconnect");
+            updateUIBasedOnAuthStatus({ isLoggedIn: false });
+            showStatus("Đã ngắt kết nối thành công.", "success");
+          } catch (e) {
+            showStatus("Lỗi khi ngắt kết nối.", "error");
+          }
+        };
+
+        window.showAuthFields = function () {
+          document.getElementById("config-section").style.display = "none";
+          document.getElementById("auth-section").classList.remove("hidden");
+        };
+
+        function showStatus(msg, type) {
+          const st = document.getElementById("status");
+          st.textContent = msg;
+          st.className = "status-message " + type;
+        }
+
+        window.showCredentialInput = function (type) {
+          document.getElementById(`${type}-display`).style.display = "none";
+          document.getElementById(`${type}-input`).style.display = "block";
+        };
+
+        window.onAuthorize = async function () {
+          const clientIdInput = document.getElementById("clientId-input");
+          const clientSecretInput =
+            document.getElementById("clientSecret-input");
+          const clientId =
+            clientIdInput.style.display !== "none"
+              ? clientIdInput.value.trim()
+              : "";
+          const clientSecret =
+            clientSecretInput.style.display !== "none"
+              ? clientSecretInput.value.trim()
+              : "";
+          showStatus("Đang mở cửa sổ cấp quyền...", "info");
+
+          try {
+            const result = await callLibrary("authorize", [
+              clientId,
+              clientSecret,
+            ]);
+            window.open(result.authUrl, "_blank");
+            startAuthCodePolling(result.state);
+          } catch (err) {
+            showStatus(err.message, "error");
+          }
+        };
+
+        function startAuthCodePolling(state) {
+          if (window.tiktokPollingInterval)
+            clearInterval(window.tiktokPollingInterval);
+          showStatus(
+            "Đang chờ xác thực từ cửa sổ mới. Vui lòng hoàn tất...",
+            "info"
+          );
+          let attempts = 0;
+          window.tiktokPollingInterval = setInterval(async () => {
+            attempts++;
+            if (attempts > 100) {
+              clearInterval(window.tiktokPollingInterval);
+              showStatus("Yêu cầu đã hết hạn. Vui lòng thử lại.", "error");
+              return;
+            }
+            try {
+              const authCode = await callLibrary("getAuthCodeFromRelay", [
+                state,
+              ]);
+              if (authCode) {
+                clearInterval(window.tiktokPollingInterval);
+                showStatus(
+                  `Đã nhận được mã xác thực. Đang tạo token...`,
+                  "info"
+                );
+                await callCreateToken(authCode);
+              }
+            } catch (err) {
+              clearInterval(window.tiktokPollingInterval);
+              showStatus("Lỗi khi kiểm tra xác thực: " + err.message, "error");
+            }
+          }, 3000);
+        }
+
+        async function callCreateToken(authCode) {
+          try {
+            const status = await callLibrary("createToken", [authCode]);
+            updateUIBasedOnAuthStatus(status);
+            showStatus("Kết nối thành công!", "success");
+          } catch (err) {
+            showStatus(err.message, "error");
+          }
+        }
+
+        function populateAccountList(accounts) {
+          const selectElement = document.getElementById("account-list");
+          selectElement.innerHTML = "";
+          if (accounts && accounts.length > 0) {
+            accounts.forEach((acc, index) => {
+              const option = document.createElement("option");
+              option.value = acc.advertiser_id;
+              option.textContent = `${index + 1}. ${acc.advertiser_name} (ID: ${
+                acc.advertiser_id
+              })`;
+              selectElement.appendChild(option);
+            });
+            // document.getElementById("get-accounts-btn").innerHTML = // << LỖI Ở ĐÂY
+            // '<i class="fas fa-sync-alt"></i> Tải lại danh sách tài khoản';
+          } else {
+            selectElement.innerHTML =
+              "<option disabled>Chưa có danh sách. Bấm nút ở trên.</option>";
+            // document.getElementById("get-accounts-btn").innerHTML = // << VÀ LỖI Ở ĐÂY
+            // '<i class="fas fa-cloud-download-alt"></i> Tải danh sách tài khoản';
+          }
+        }
+
+        window.onGetAccounts = async function () {
+          const selectElement = document.getElementById("account-list");
+          selectElement.innerHTML = "<option disabled>Đang tải...</option>";
+          try {
+            const accounts = await callLibrary("getAdvertiserAccounts");
+            populateAccountList(accounts);
+          } catch (err) {
+            selectElement.innerHTML = `<option disabled>Lỗi: ${err.message}</option>`;
+          }
+        };
+
+        window.filterAccounts = function () {
+          const filter = document
+            .getElementById("search-account")
+            .value.toUpperCase();
+          const select = document.getElementById("account-list");
+          const options = select.getElementsByTagName("option");
+          for (let i = 0; i < options.length; i++) {
+            const txtValue = options[i].textContent || options[i].innerText;
+            options[i].style.display = txtValue.toUpperCase().includes(filter)
+              ? ""
+              : "none";
+          }
+        };
+
+        window.onAccountChange = function () {
+          if (currentViewType === "gmv") {
+            onGetGmvShops();
+          }
+        };
+
+        async function onGetGmvShops() {
+          const accountSelect = document.getElementById("account-list");
+          const shopSelect = document.getElementById("shop-select");
+          const selectedAdvertiserIds = [...accountSelect.selectedOptions].map(
+            (opt) => opt.value
+          );
+          if (selectedAdvertiserIds.length === 0) {
+            shopSelect.innerHTML =
+              '<option value="" disabled>Chọn tài khoản ở trên để tải shop</option>';
+            return;
+          }
+          shopSelect.innerHTML =
+            "<option disabled>Đang tải danh sách shop...</option>";
+          try {
+            const result = await callLibrary("getGmvShops", [
+              selectedAdvertiserIds,
+            ]);
+            shopSelect.innerHTML = "";
+            if (result.error) {
+              shopSelect.innerHTML = `<option disabled>Lỗi: ${result.message}</option>`;
+              return;
+            }
+            const shops = result.shops;
+            if (shops && shops.length > 0) {
+              shops.forEach((shop) => {
+                const option = document.createElement("option");
+                option.value = shop.store_id;
+                option.textContent = `${shop.store_name} (ID: ${shop.store_id})`;
+                shopSelect.appendChild(option);
+              });
+            } else {
+              shopSelect.innerHTML =
+                "<option disabled>Không tìm thấy shop nào.</option>";
+            }
+          } catch (error) {
+            shopSelect.innerHTML = `<option disabled>Lỗi: ${error.message}</option>`;
+          }
+        }
+
+        function populateSheetNames(sheetNames) {
+          const select = document.getElementById("sheet-name-select");
+          while (select.options.length > 1) select.remove(1);
+          if (sheetNames && sheetNames.length > 0) {
+            sheetNames.forEach((name) => {
+              const option = document.createElement("option");
+              option.value = name;
+              option.textContent = name;
+              select.appendChild(option);
+            });
+          }
+        }
+
+        window.handleSheetNameChange = function () {
+          const select = document.getElementById("sheet-name-select");
+          const newSheetGroup = document.getElementById("new-sheet-name-group");
+          const overwriteGroup = document.getElementById("overwrite-group");
+          const isCreateNew = select.value === "CREATE_NEW";
+          newSheetGroup.style.display = isCreateNew ? "block" : "none";
+          overwriteGroup.style.display = isCreateNew ? "none" : "flex";
+        };
+
+        function showModuleStatus(message, isError) {
+          const statusDiv = document.getElementById("data-status");
+          statusDiv.innerHTML = message;
+          statusDiv.className = isError
+            ? "status-message error"
+            : "status-message info";
+        }
+
+        function setupTemplates(templateStructure) {
+          reportTemplates = templateStructure;
+          const templateSelect = document.getElementById("template-select");
+          templateSelect.innerHTML = "";
+
+          const relevantGroups = templateStructure.filter((group) => {
+            const groupNameLower = group.groupName.toLowerCase();
+            if (currentViewType === "tta")
+              return groupNameLower.startsWith("tta");
+            if (currentViewType === "gmv")
+              return groupNameLower.startsWith("gmv");
+            return false;
+          });
+
+          relevantGroups.forEach((group) => {
+            const optgroup = document.createElement("optgroup");
+            optgroup.label = group.groupName;
+            group.templates.forEach((template) => {
+              const option = document.createElement("option");
+              option.value = template.name;
+              option.textContent = template.name;
+              optgroup.appendChild(option);
+            });
+            templateSelect.appendChild(optgroup);
+          });
+
+          populateFieldsUI();
+        }
+
+        function findTemplateByName(name) {
+          for (const group of reportTemplates) {
+            const foundTemplate = group.templates.find((t) => t.name === name);
+            if (foundTemplate) return foundTemplate.config;
+          }
+          return null;
+        }
+
+        window.populateFieldsUI = function () {
+          const templateName = document.getElementById("template-select").value;
+          if (!templateName) return;
+
+          const template = findTemplateByName(templateName);
+          const container = document.getElementById("fields-container");
+          container.innerHTML = "";
+          document.querySelector(
+            "#tiktok-data-sidebar .check-all-btn"
+          ).textContent = "Bỏ chọn tất cả";
+
+          if (!template) return;
+
+          const createCheckboxSection = (title, fields) => {
+            const categoryTitle = document.createElement("div");
+            categoryTitle.className = "field-category-title";
+            categoryTitle.textContent = title;
+            container.appendChild(categoryTitle);
+
+            fields.forEach((field) => {
+              const item = document.createElement("div");
+              item.className = "field-checkbox-item";
+              const checkbox = document.createElement("input");
+              checkbox.type = "checkbox";
+              checkbox.id = `field-${field.replace(/\s/g, "-")}`;
+              checkbox.value = field;
+              checkbox.checked = true;
+              const label = document.createElement("label");
+              label.htmlFor = checkbox.id;
+              label.textContent = field;
+              item.append(checkbox, label);
+              container.appendChild(item);
+            });
+          };
+
+          if (template.selectable_dimensions) {
+            for (const category in template.selectable_dimensions) {
+              createCheckboxSection(
+                category,
+                template.selectable_dimensions[category]
+              );
+            }
+          }
+
+          if (template.selectable_metrics) {
+            for (const category in template.selectable_metrics) {
+              createCheckboxSection(
+                category,
+                template.selectable_metrics[category]
+              );
+            }
+          }
+        };
+
+        window.toggleCheckAll = function (event) {
+          event.preventDefault();
+          const container = document.getElementById("fields-container");
+          const checkboxes = container.querySelectorAll(
+            'input[type="checkbox"]'
+          );
+          const btn = event.target;
+          const shouldCheck = btn.textContent === "Chọn tất cả";
+          checkboxes.forEach((cb) => {
+            cb.checked = shouldCheck;
+          });
+          btn.textContent = shouldCheck ? "Bỏ chọn tất cả" : "Chọn tất cả";
+        };
+
+        window.onGetData = async function () {
+          const templateName = document.getElementById("template-select").value;
+          const allSelectedFields = [
+            ...document.querySelectorAll("#fields-container input:checked"),
+          ].map((cb) => cb.value);
+          const startDate = document.getElementById("start-date").value;
+          const endDate = document.getElementById("end-date").value;
+          const selectedAccounts = [
+            ...document.getElementById("account-list").selectedOptions,
+          ].map((opt) => opt.value);
+          const selectedShops = [
+            ...document.getElementById("shop-select").selectedOptions,
+          ].map((opt) => opt.value);
+          const sheetName = document.getElementById("sheet-name-select").value;
+          let newSheetName = document
+            .getElementById("new-sheet-name")
+            .value.trim();
+          const isOverwrite = document.getElementById("overwrite-data").checked;
+
+          if (
+            selectedAccounts.length === 0 ||
+            (currentViewType === "gmv" && selectedShops.length === 0)
+          ) {
+            alert("Vui lòng chọn tài khoản (và shop nếu cần).");
+            return;
+          }
+
+          const params = {
+            accountIds: selectedAccounts,
+            shopIds: selectedShops,
+            templateName,
+            selectedFields: allSelectedFields,
+            startDate,
+            endDate,
+            sheetName,
+            newSheetName,
+            isOverwrite,
+          };
+
+          const taskType = "TIKTOK_" + currentViewType.toUpperCase();
+          const description = `Tải dữ liệu ${
+            document.getElementById("data-view-title").textContent
+          }`;
+          taskManager.start(taskType, params, description);
+        };
+
+        return {
+          init,
+          showDataView,
+        };
+      })();
+
+      // === SCHEDULING UI LOGIC (SHARED) ===
+
+      async function loadCurrentScheduleStatus(jobType) {
+        try {
+          const status = await callLibrary("getScheduleStatus", [jobType]);
+          const isFb = jobType === "FB_BILLING";
+          const displayDiv = document.getElementById(
+            isFb ? "fb-schedule-status-display" : "schedule-status-display"
+          );
+          const showBtn = document.getElementById(
+            isFb ? "fb-show-schedule-btn" : "show-schedule-btn"
+          );
+
+          if (displayDiv) displayDiv.textContent = status.display;
+          if (showBtn) {
+            showBtn.textContent = status.isScheduled
+              ? "Chỉnh sửa lịch"
+              : "Cài đặt lịch mới";
+            showBtn.classList.remove("hidden");
+            document
+              .getElementById(isFb ? "fb-scheduleForm" : "schedule-form")
+              .classList.add("hidden");
+          }
+        } catch (e) {
+          console.error("Failed to load schedule status", e);
+        }
+      }
+
+      async function handleSetSchedule(moduleType) {
+        const isFb = moduleType === "FB_BILLING";
+        const jobType = isFb
+          ? "FB_BILLING"
+          : "TIKTOK_" + currentViewType.toUpperCase();
+        const frequency = document.getElementById(
+          isFb ? "fb-scheduleFrequency" : "schedule-frequency"
+        ).value;
+
+        let jobParams = {};
+        if (isFb) {
+          jobParams = {
+            accountIds: [
+              ...document.getElementById("fb-accountSelect").selectedOptions,
+            ].map((opt) => opt.value),
+          };
+          if (jobParams.accountIds.length === 0) {
+            alert("Vui lòng chọn ít nhất một tài khoản trước khi đặt lịch.");
+            return;
+          }
+        } else {
+          // TikTok
+          jobParams = {
+            templateName: document.getElementById("template-select").value,
+            selectedFields: [
+              ...document.querySelectorAll("#fields-container input:checked"),
+            ].map((cb) => cb.value),
+            accountIds: [
+              ...document.getElementById("account-list").selectedOptions,
+            ].map((opt) => opt.value),
+            shopIds: [
+              ...document.getElementById("shop-select").selectedOptions,
+            ].map((opt) => opt.value),
+            sheetName: document.getElementById("sheet-name-select").value,
+            newSheetName: document
+              .getElementById("new-sheet-name")
+              .value.trim(),
+          };
+          if (!jobParams.templateName || jobParams.accountIds.length === 0) {
+            alert("Vui lòng chọn Template và Tài khoản trước khi đặt lịch.");
+            return;
+          }
+        }
+        try {
+          const message = await callLibrary("setSchedule", [
+            jobType,
+            parseInt(frequency, 10),
+            jobParams,
+          ]);
+          alert(message);
+          await loadCurrentScheduleStatus(jobType);
+        } catch (e) {
+          alert("Lỗi khi đặt lịch: " + e.message);
+        }
+      }
+
+      async function handleCancelSchedule(moduleType) {
+        if (
+          !confirm("Bạn có chắc chắn muốn hủy lịch chạy tự động này không?")
+        ) {
+          return;
+        }
+        const isFb = moduleType === "FB_BILLING";
+        const jobType = isFb
+          ? "FB_BILLING"
+          : "TIKTOK_" + currentViewType.toUpperCase();
+        try {
+          await callLibrary("deleteSchedule", [jobType]);
+          alert("Đã hủy lịch thành công.");
+          await loadCurrentScheduleStatus(jobType);
+        } catch (e) {
+          alert("Lỗi khi hủy lịch: " + e.message);
+        }
+      }
+      // === USAGE STATS LOGIC ===
+      async function updateUsageStats() {
+        try {
+          const data = await callLibrary("getSpreadsheetUsage");
+          if (data.error) {
+            console.error("Lỗi lấy dung lượng:", data.error);
+            return;
+          }
+
+          const cellsText = document.getElementById("usage-cells-text");
+          const sheetsText = document.getElementById("usage-sheets-text");
+          const progressBar = document.getElementById("usage-progress-bar");
+
+          const formatNumber = (num) => num.toLocaleString("vi-VN");
+
+          cellsText.textContent = `${formatNumber(
+            data.totalCells
+          )} / ${formatNumber(data.cellLimit)} (${data.cellPercentage.toFixed(
+            2
+          )}%)`;
+          sheetsText.textContent = `${data.sheetCount} / ${
+            data.sheetLimit
+          } (${data.sheetPercentage.toFixed(2)}%)`;
+
+          const maxPercentage = Math.max(
+            data.cellPercentage,
+            data.sheetPercentage
+          );
+          progressBar.style.width = `${maxPercentage}%`;
+
+          if (maxPercentage > 85) {
+            progressBar.style.backgroundColor = "var(--error-500)";
+          } else if (maxPercentage > 60) {
+            progressBar.style.backgroundColor = "var(--warning-500)";
+          } else {
+            progressBar.style.backgroundColor = "var(--success-500)";
+          }
+        } catch (e) {
+          console.error("Failed to update usage stats", e);
+        }
+      }
+      // === CLEANUP LOGIC ===
+      async function handleCleanup() {
+        if (
+          !confirm(
+            "Bạn có chắc muốn dọn dẹp tất cả các hàng và cột trống trong file này không? Hành động này không thể hoàn tác."
+          )
+        ) {
+          return;
+        }
+
+        const cellsText = document.getElementById("usage-cells-text");
+        cellsText.textContent = "Đang dọn dẹp...";
+
+        try {
+          const message = await callLibrary("cleanupSheets");
+          alert(message);
+          await updateUsageStats();
+        } catch (error) {
+          alert("Đã xảy ra lỗi: " + error.message);
+          await updateUsageStats();
+        }
+      }
+
+      // === [NEW] TASK MANAGER UI LOGIC ===
+      const taskManager = (function () {
+        let pollingInterval = null;
+        const panel = document.getElementById("task-manager-panel");
+        const descriptionEl = document.getElementById("task-description");
+        const progressTextEl = document.getElementById("task-progress-text");
+        const progressBarFgEl = document.getElementById("task-progress-bar-fg");
+        const pauseBtn = document.getElementById("task-pause-btn");
+        const resumeBtn = document.getElementById("task-resume-btn");
+        const stopBtn = document.getElementById("task-stop-btn");
+
+        function updateUI(task) {
+          if (
+            !task ||
+            task.status === "COMPLETED" ||
+            task.status === "FAILED"
+          ) {
+            panel.classList.remove("visible");
+            stopPolling();
+            return;
+          }
+
+          panel.classList.add("visible");
+          descriptionEl.textContent =
+            task.description || "Đang xử lý tác vụ...";
+
+          if (task.progress.total > 0) {
+            const percentage =
+              (task.progress.processed / task.progress.total) * 100;
+            progressTextEl.textContent = `${task.progress.processed}/${task.progress.total}`;
+            progressBarFgEl.style.width = `${percentage}%`;
+          } else {
+            progressTextEl.textContent = task.progress.message;
+            progressBarFgEl.style.width = "100%"; // Indeterminate
+          }
+
+          const isPaused = task.status === "PAUSED";
+          pauseBtn.classList.toggle("hidden", isPaused);
+          resumeBtn.classList.toggle("hidden", !isPaused);
+        }
+
+        async function pollStatus() {
+          try {
+            const status = await callLibrary("getTaskStatus");
+            updateUI(status);
+          } catch (e) {
+            console.error("Task polling failed", e);
+            stopPolling();
+          }
+        }
+
+        function startPolling() {
+          if (pollingInterval) return;
+          pollStatus(); // Poll immediately
+          pollingInterval = setInterval(pollStatus, 5000); // Then every 5 seconds
+        }
+
+        function stopPolling() {
+          clearInterval(pollingInterval);
+          pollingInterval = null;
+        }
+
+        async function start(taskType, params, description) {
+          try {
+            const task = await callLibrary("createTask", [
+              taskType,
+              params,
+              description,
+            ]);
+            updateUI(task);
+            startPolling();
+          } catch (e) {
+            alert("Lỗi khi bắt đầu tác vụ: " + e.message);
+          }
+        }
+
+        async function pause() {
+          pauseBtn.disabled = true;
+          await callLibrary("pauseTask");
+          await pollStatus();
+          pauseBtn.disabled = false;
+        }
+
+        async function resume() {
+          resumeBtn.disabled = true;
+          await callLibrary("resumeTask");
+          await pollStatus();
+          resumeBtn.disabled = false;
+        }
+
+        async function stop() {
+          if (confirm("Bạn có chắc muốn dừng hẳn tác vụ này không?")) {
+            stopBtn.disabled = true;
+            await callLibrary("stopTask");
+            panel.classList.remove("visible");
+            stopPolling();
+            stopBtn.disabled = false;
+          }
+        }
+
+        // Check for an existing task when the sidebar loads
+        pollStatus();
+
+        return { start, pause, resume, stop };
+      })();
+
+      // === GLOBAL INITIALIZATION ===
+      document.addEventListener("DOMContentLoaded", () => {
+        if (window.tiktokModule) window.tiktokModule.init();
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Gọi hàm của bạn tại đây
+        loadSavedLicense();
+      });
+    </script>
+  </body>
+</html>
