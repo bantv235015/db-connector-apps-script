@@ -572,19 +572,27 @@
   </head>
   <body>
     <div class="sidebar-container">
+      <!-- ======================= LOADING SIDEBAR ======================= -->
+      <div id="loading-sidebar" class="sidebar-content active">
+        <header class="sidebar-header">
+          <div class="sidebar-title">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span> Đang tải...</span>
+          </div>
+        </header>
+        <main class="sidebar-main" style="display: flex">
+          <p>Vui lòng đợi trong giây lát...</p>
+        </main>
+      </div>
       <!-- ======================= LICENSE CHECK SIDEBAR ======================= -->
-      <div id="license-check-sidebar" class="sidebar-content active">
+      <div id="license-check-sidebar" class="sidebar-content">
         <header class="sidebar-header">
           <div class="sidebar-title">
             <i class="fas fa-key"></i>
             <span> License Check </span>
           </div>
           <div class="nav-actions">
-            <button
-              class="nav-button"
-              onclick="switchSidebar('main-sidebar')"
-              title="Back to Home"
-            >
+            <button class="nav-button">
               <i class="fas fa-home"></i>
             </button>
           </div>
@@ -1477,6 +1485,7 @@
       function checkLicense(savedLicense) {
         statusDisplay = document.getElementById("license-status");
         if (!savedLicense) {
+          switchSidebar("license-check-sidebar");
           const licenseCode = document
             .getElementById("licenseCode")
             .value.trim();
@@ -1493,6 +1502,7 @@
             .withSuccessHandler((result) => {
               if (result.isValid) {
                 statusDisplay.textContent = "License hợp lệ!";
+                alert("License hợp lệ!");
                 statusDisplay.className = "success";
                 statusDisplay.style.display = "block";
                 saveLicenseKey(); // Save the license key
@@ -1512,23 +1522,15 @@
             })
             .callLibrary("checkLicense", [licenseCode]);
         } else {
-          const licenseInput = document.getElementById("licenseCode");
-          licenseInput.value =
-            "**************************************************";
-          statusDisplay.textContent = "Đang kiểm tra License đã lưu...";
-          statusDisplay.className = "info";
-          statusDisplay.style.display = "block";
           // Call the backend to check the saved license
           google.script.run
             .withSuccessHandler((result) => {
               if (result.isValid) {
-                statusDisplay.textContent = "License hợp lệ!";
-                statusDisplay.className = "success";
-                statusDisplay.style.display = "block";
                 // Call showLock with the permissions from the result
                 showLock(result.permissions);
                 switchSidebar("main-sidebar");
               } else {
+                switchSidebar("license-check-sidebar");
                 statusDisplay.textContent =
                   "License không hợp lệ. Vui lòng thử lại.";
                 statusDisplay.className = "error";
@@ -1542,6 +1544,9 @@
             })
             .callLibrary("checkLicense", [savedLicense]);
         }
+        setTimeout(() => {
+          statusDisplay.style.display = "none";
+        }, 3000);
       }
       function clearLicense() {
         const statusDisplay = document.getElementById("license-status");
@@ -1568,16 +1573,20 @@
           .callLibrary("clearSavedLicenseKey");
       }
       function loadSavedLicense() {
+        switchSidebar("loading-sidebar");
         google.script.run
           .withSuccessHandler(function (savedKey) {
             if (savedKey && savedKey.trim() !== "") {
               checkLicense(savedKey);
+            } else {
+              // If no saved key, switch to license check sidebar
+              switchSidebar("license-check-sidebar");
             }
           })
           .withFailureHandler(function (error) {
             console.log("Error loading saved license: " + error);
           })
-          .callLibrary("getSavedLicenseKey");
+          .callLibrary("getSavedLicenseKey", []);
       }
 
       function saveLicenseKey() {
@@ -2756,7 +2765,6 @@
         if (window.tiktokModule) window.tiktokModule.init();
       });
       document.addEventListener("DOMContentLoaded", function () {
-        // Gọi hàm của bạn tại đây
         loadSavedLicense();
       });
     </script>
