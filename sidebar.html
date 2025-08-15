@@ -981,7 +981,7 @@
               <ul class="list"></ul>
             </div>
           </section>
-          <!-- Google Card -->
+          <!-- Google Account -->
           <section class="card">
             <div
               class="card-header collapsible-header"
@@ -999,7 +999,7 @@
               <ul class="list"></ul>
             </div>
           </section>
-          <!-- TikTok Card -->
+          <!-- TikTok Account -->
           <section class="card">
             <div
               class="card-header collapsible-header"
@@ -1078,7 +1078,7 @@
                       Đăng nhập & Cấp quyền
                     </button>
                   </div>
-                  <div id="status" class="status-message"></div>
+                  <div id="tiktok-login-status" class="status-message"></div>
                 </div>
 
                 <div
@@ -1618,15 +1618,15 @@
               // Nếu được mở khóa: đặt lại style và đảm bảo icon là mũi tên
               item.style.opacity = "1";
               item.style.cursor = "default";
-
+              item.style.pointerEvents = "auto";
               // Thay icon: Xóa class fa-lock và thêm fa-chevron-right
               actionIcon.classList.remove("fa-lock");
               actionIcon.classList.add("fa-chevron-right");
             } else {
-              // Nếu bị khóa: đặt style mờ và thay đổi con trỏ
+              // Nếu bị khóa: đặt style mờ, thay đổi con trỏ và không nhận sự kiện chuột
               item.style.opacity = "0.5";
               item.style.cursor = "not-allowed";
-
+              item.style.pointerEvents = "none";
               // Thay icon: Xóa class fa-chevron-right và thêm fa-lock
               actionIcon.classList.remove("fa-chevron-right");
               actionIcon.classList.add("fa-lock");
@@ -2129,9 +2129,10 @@
         };
 
         function showStatus(msg, type) {
-          const st = document.getElementById("status");
+          const st = document.getElementById("tiktok-login-status");
           st.textContent = msg;
           st.className = "status-message " + type;
+          st.style.display = "block";
         }
 
         window.showCredentialInput = function (type) {
